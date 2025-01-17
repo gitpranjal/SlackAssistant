@@ -31,20 +31,20 @@ class ModelHandler:
         """
         Check if the message is about analyzing a Slack channel.
         """
-        return "analyze slack channel" in message.lower() or "analyze channel" in message.lower()
+        return "analyze slack channel" in message.lower() or "analyze channel" in message.lower() or "analyse" in message.lower() or "analyze" in message.lower()
     
     def _is_slack_channel_listing_request(self, message):
         """
         Check if the message is about listing out Slack channels.
         """
-        return "channels" in message.lower() and ("list" in message.lower() or "find" in message.lower())
+        return ("channels" in message.lower() or "channel" in message.lower()) and ("list" in message.lower() or "find" in message.lower() or "which" in message.lower())
     
     def _is_describe_request(self, message):
         """
         Check if user message request channel description and short summary
         """
    
-        if "describe slack channel" in message.lower():
+        if "describe slack channel" in message.lower() or "describe" in message.lower():
             return True
     
         return False
@@ -83,7 +83,7 @@ class ModelHandler:
 
          
         ICON_URL = "https://raw.githubusercontent.com/gitpranjal/SlackAssistant/main/static/slack_bot.png"
-        ICON_HTML = f'<img src="{ICON_URL}" alt="icon" style="width:35px; height:30px;">'
+        ICON_HTML = f'<img src="{ICON_URL}" alt="icon" style="width:30px; height:30px;">'
 
 
         # Handle clear data request
@@ -199,7 +199,7 @@ class ModelHandler:
         print("Falling back to LLM response")
         payload = {
             "model": self.model,
-            "messages": [{"role": "system", "content": "You are a helpful assistant. You are fall back right now because the rag handler object couldn't fetch anything relevant from vectorstore. You're not responsing anthing from the slack channels in current workspace. Specify this fact in your response and after specfying, respond with your intelligence."}] + history + [{"role": "user", "content": message}],
+            "messages": [{"role": "system", "content": "You are a helpful assistant. You are fall back right now because the rag handler object couldn't fetch anything relevant from vectorstore. You're not responsing anything from the slack channels in current workspace. That is happenning because the user message is nothing related to anything present in the vectorstore. Specify this fact in your response and after specfying, respond with your intelligence."}] + history + [{"role": "user", "content": message}],
             "stream": False
         }
         response = requests.post(self.localAPIUrl, json=payload, headers=self.header)
