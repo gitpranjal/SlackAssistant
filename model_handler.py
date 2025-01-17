@@ -6,7 +6,7 @@ import re
 import os
 import gradio as gr
 import shutil
-import random
+
 
 # Constants
 OLLAMA_API = "http://localhost:11434/api/chat"
@@ -80,12 +80,9 @@ class ModelHandler:
         """
         Main chat function handling Slack messages, RAG, and fallback logic.
         """
-        IMAGES = [
-            "https://raw.githubusercontent.com/gitpranjal/PersonalAssistant/main/static/scout.jpg",
-            "https://raw.githubusercontent.com/gitpranjal/PersonalAssistant/main/static/scout2.jpg",
-            "https://raw.githubusercontent.com/gitpranjal/PersonalAssistant/main/static/scout3.jpg"
-        ]
-        ICON_URL = random.choice(IMAGES)
+
+         
+        ICON_URL = "https://raw.githubusercontent.com/gitpranjal/SlackAssistant/main/static/slack_bot.png"
         ICON_HTML = f'<img src="{ICON_URL}" alt="icon" style="width:35px; height:30px;">'
 
 
